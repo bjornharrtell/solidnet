@@ -1,0 +1,15 @@
+{ "name": "solidnet"
+, "description": "A server..."
+, "version": "0.0.1"
+, "url": "http://solidnet.org/"
+, "author": "Björn Harrtell <bjorn@wololo.org>"
+, "engines": ["node >= 0.4.0"]
+, "dependencies": {
+    "express": "latest"
+  , "pg": "latest"
+  }
+, "repository": {
+    "type" : "git"
+  , "url" : "https://bjornharrtell@github.com/bjornharrtell/solidnet.git"
+  }
+}
