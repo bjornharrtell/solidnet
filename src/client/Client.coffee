@@ -4,7 +4,7 @@ define [
 ], (Map, MapPanel)->
   Ext.onReady ->
     map = new Map
-    mapPanel = new MapPanel(map.map)
+    mapPanel = new MapPanel(map)
 
     Ext.create 'Ext.Viewport'
       layout:

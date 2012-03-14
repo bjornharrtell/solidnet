@@ -1,12 +1,19 @@
 define ->
   class MapManel
-    constructor: (@map) ->
-      map = @map
-  
+    constructor: (map) ->
       @panel = Ext.create 'Ext.panel.Panel'
         title: 'Map'
-        tbar: ['-', {text: 'button'}]
+        tbar: [
+          '-'
+        , 
+          text: 'button'
+          enableToggle: true
+          listeners:
+            toggle:
+              fn: (button, pressed) ->
+                if pressed then map.draw.activate() else map.draw.deactivate()
+        ]
         listeners:
           afterlayout:
             fn: ->
-              map.render @body.dom
+              map.map.render @body.dom
