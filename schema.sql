@@ -4,8 +4,8 @@ CREATE TABLE links
   created timestamp without time zone NOT NULL,
   updated timestamp without time zone,
   CONSTRAINT reflinks_pkey PRIMARY KEY (id)
-)
-AddGeometryColumn('links', 'geom', 4326, 'LINESTRING', 2);
+);
+SELECT AddGeometryColumn('links', 'geom', 4326, 'LINESTRING', 2);
 
 CREATE TABLE nodes
 (
@@ -14,7 +14,7 @@ CREATE TABLE nodes
   ended timestamp without time zone,
   CONSTRAINT nodes_pkey PRIMARY KEY (id)
 );
-AddGeometryColumn('nodes', 'geom', 4326, 'POINT', 2);
+SELECT AddGeometryColumn('nodes', 'geom', 4326, 'POINT', 2);
 
 CREATE TABLE linkports
 (
@@ -26,7 +26,7 @@ CREATE TABLE linkports
       REFERENCES links (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE CASCADE
 );
-AddGeometryColumn('linkports', 'geom', 4326, 'POINT', 2);
+SELECT AddGeometryColumn('linkports', 'geom', 4326, 'POINT', 2);
 
 CREATE TABLE nodeports
 (
@@ -37,7 +37,7 @@ CREATE TABLE nodeports
       REFERENCES nodes (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE CASCADE
 );
-AddGeometryColumn('nodeports', 'geom', 4326, 'POINT', 2);
+SELECT AddGeometryColumn('nodeports', 'geom', 4326, 'POINT', 2);
 
 CREATE TABLE linkparts
 (
@@ -46,7 +46,6 @@ CREATE TABLE linkparts
   endtime timestamp without time zone,
   startport uuid NOT NULL,
   endport uuid NOT NULL,
-  geom geometry,
   CONSTRAINT linkparts_pkey PRIMARY KEY (id),
   CONSTRAINT linkparts_endport_fkey FOREIGN KEY (endport)
       REFERENCES linkports (id) MATCH SIMPLE
@@ -55,7 +54,7 @@ CREATE TABLE linkparts
       REFERENCES linkports (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE CASCADE
 );
-AddGeometryColumn('linkparts', 'geom', 4326, 'LINESTRING', 2);
+SELECT AddGeometryColumn('linkparts', 'geom', 4326, 'LINESTRING', 2);
 
 CREATE TABLE nodeportsnodeports
 (
