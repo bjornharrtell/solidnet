@@ -1,1 +1,24 @@
-Reference implementation of stable link entity network for PostgreSQL/PostGIS
+SolidNet
+
+A reference implementation of stable link entity network for
+PostgreSQL/PostGIS
+
+A stable link entity network is a topological network allowing
+use of linear referencing for both attribute data and location
+for link connections.
+
+The purpose for allowing a link to connect to another link at
+a linear location is that the latter link does not have to
+be split as would be the case in traditional node-link networks.
+
+A mandatory attribute data in the model is from and to date
+for links. This allows for discontinuation of no longer existing 
+parts of links, again without requiring any change to link
+geometry.
+
+The above results in links that essentially live forever with
+stable identities that can be be used to linearly reference
+attribute data in disconnected distributed databases.
+
+One use case is road networks with connected links and overlapping
+attribute data owned and managed by separate organisations.
