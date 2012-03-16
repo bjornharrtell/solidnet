@@ -56,20 +56,6 @@ CREATE TABLE linkparts
 -- intentional redundant geometry for speed
 SELECT AddGeometryColumn('linkparts', 'geom', -1, 'LINESTRING', 2);
 
--- contains connections between Nodes
-CREATE TABLE nodesnodes
-(
-  fromnode uuid NOT NULL,
-  tonode uuid NOT NULL,
-  CONSTRAINT nodesnodes_pkey PRIMARY KEY (fromnode, tonode),
-  CONSTRAINT nodesnodes_fromport_fkey FOREIGN KEY (fromnode)
-      REFERENCES nodes (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE CASCADE,
-  CONSTRAINT nodesnodes_tonode_fkey FOREIGN KEY (tonode)
-      REFERENCES nodes (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE CASCADE
-);
-
 -- contains connections between Nodes and Linkports
 CREATE TABLE nodeslinkports
 (

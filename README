@@ -20,5 +20,11 @@ The above results in links that essentially live forever with
 stable identities that can be be used to linearly reference
 attribute data in disconnected distributed databases.
 
-One use case is road networks with connected links and overlapping
-attribute data owned and managed by separate organisations.
+The model also includes nodes at points where links connects.
+Nodes have potentially a limited lifespan and their main purpose
+is to be used as a reference for information that references
+the link connection, like turn restriction information.
+
+One use case for this model is modeling road networks with
+connected links and overlapping attribute data owned and managed
+by separate organisations.
