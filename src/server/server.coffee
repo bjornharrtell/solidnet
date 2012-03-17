@@ -17,6 +17,13 @@ app.configure =>
 app.get '/hello', (req, res) =>
   res.send 'hello world' 
 
+app.get '/links', (req, res) =>
+  bbox = req.query.bbox
+  console.log 'bbox: ' + bbox
+  client.query "SELECT * FROM links WHERE geom && SetSRID('BOX3D(" + bbox + ")'::box3d,-1)"
+  # TODO: parse and respond...
+  res.send 'ok'
+  
 app.post '/links', (req, res) =>
   client.query "SELECT createlink($1)", [req.body.wkt]
   res.send 'ok'
