@@ -51,4 +51,6 @@ Development requirements
  * Nodemon (https://github.com/remy/nodemon)
  
 Start the server for development purposes with:
- nodemon ./src/server/server.coffee
+
+    nodemon ./src/server/server.coffee
+
