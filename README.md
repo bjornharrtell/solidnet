@@ -49,7 +49,13 @@ Development requirements
  * NPM (http://npmjs.org/)
  * Coffeescript (http://coffeescript.org)
  * Nodemon (https://github.com/remy/nodemon)
- 
+
+The server module uses node js modules express and pg. If you
+do not want/have these modules globally installed you can install
+them for the server module locally by running:
+
+    npm install
+
 Start the server for development purposes with:
 
     nodemon ./src/server/server.coffee
