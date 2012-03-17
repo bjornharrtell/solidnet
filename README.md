@@ -1,7 +1,15 @@
 SolidNet
+========
 
 A reference implementation of stable link entity network for
-PostgreSQL/PostGIS
+PostgreSQL/PostGIS. Also includes a basic server/client for
+editing the network.
+
+NOTE: Experimental work. Not even close to being finished or
+functional.
+
+Introduction
+------------
 
 A stable link entity network is a topological network allowing
 use of linear referencing for both attribute data and location
@@ -28,3 +36,19 @@ the link connection, like turn restriction information.
 One use case for this model is modeling road networks with
 connected links and overlapping attribute data owned and managed
 by separate organisations.
+
+Development requirements
+------------------------
+
+ * Ubuntu or similar assumed
+ * PostgreSQL 9.0+ (http://www.postgresql.org)
+ * PostGIS 1.5+ (http://postgis.refractions.net)
+ * OpenLayers 2.11+ (http://openlayers.org) in root
+ * Ext JS 4.0+ (http://www.sencha.com) in root
+ * Node.js (http://nodejs.org)
+ * NPM (http://npmjs.org/)
+ * Coffeescript (http://coffeescript.org)
+ * Nodemon (https://github.com/remy/nodemon)
+ 
+Start the server for development purposes with:
+ nodemon ./src/server/server.coffee

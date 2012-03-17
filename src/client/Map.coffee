@@ -20,9 +20,9 @@ define ->
       
     onFeatureAdded: (feature) ->
       format = new OpenLayers.Format.WKT
+      data =
+        wkt: format.write feature
     
       Ext.Ajax.request
             url: 'links'
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain' }
-            params: format.write feature
+            jsonData: data

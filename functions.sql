@@ -2,16 +2,22 @@ CREATE OR REPLACE FUNCTION createlink(geom geometry)
   RETURNS boolean AS $$
 
 DECLARE
-  startPoint geometry := ST_StartPoint(NEW.geom);
-  endPoint geometry := ST_EndPoint(NEW.geom);
+  newid uuid;
+  startPoint geometry := ST_StartPoint(geom);
+  endPoint geometry := ST_EndPoint(geom);
 BEGIN
+  INSERT INTO links (geom)
+    VALUES (geom)
+    RETURNING id
+    INTO newid;
+  
   INSERT INTO linkports (link, distance, geom)
-    VALUES (NEW.id, 0, startPoint);
+    VALUES (newid, 0, startPoint);
 
   INSERT INTO linkports (link, distance, geom)
-    VALUES (NEW.id, 1, endPoint);
-  
-  RETURN NEW;
+    VALUES (newid, 1, endPoint);
+
+  RETURN true;
 END;
 
 $$ LANGUAGE plpgsql VOLATILE;
