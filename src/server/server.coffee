@@ -1,5 +1,3 @@
-console.log 'server inits'
-
 express = require 'express'
 pg = require 'pg'
 
@@ -18,11 +16,11 @@ app.get '/hello', (req, res) =>
   res.send 'hello world' 
 
 app.get '/links', (req, res) =>
-  bbox = req.query.bbox
-  console.log 'bbox: ' + bbox
-  client.query "SELECT * FROM links WHERE geom && SetSRID('BOX3D(" + bbox + ")'::box3d,-1)"
-  # TODO: parse and respond...
-  res.send 'ok'
+  bbox = req.query.bbox.split ','
+  query = "SELECT id, ST_AsText(geom) AS wkt
+    FROM links WHERE geom && 'BOX(#{bbox[0]} #{bbox[1]},#{bbox[2]} #{bbox[3]}'::box2d"
+  client.query query, (err, result) ->
+    res.send result.rows
   
 app.post '/links', (req, res) =>
   client.query "SELECT createlink($1)", [req.body.wkt]

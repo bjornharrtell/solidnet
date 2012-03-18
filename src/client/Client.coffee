@@ -1,7 +1,7 @@
 define [
   'cs!Map'
   'cs!MapPanel'
-], (Map, MapPanel)->
+], (Map, MapPanel) ->
   Ext.onReady ->
     map = new Map
     mapPanel = new MapPanel(map)
