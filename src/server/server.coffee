@@ -6,6 +6,10 @@ client.connect()
 
 client.query "set search_path to solidnet,public;"
 
+parseBBOX = (bbox) ->
+  bbox = bbox.split ','
+  "'BOX(#{bbox[0]} #{bbox[1]},#{bbox[2]} #{bbox[3]}'::box2d"
+
 app = express.createServer()
 
 app.configure =>
@@ -16,9 +20,14 @@ app.get '/hello', (req, res) =>
   res.send 'hello world' 
 
 app.get '/links', (req, res) =>
-  bbox = req.query.bbox.split ','
   query = "SELECT id, ST_AsText(geom) AS wkt
-    FROM links WHERE geom && 'BOX(#{bbox[0]} #{bbox[1]},#{bbox[2]} #{bbox[3]}'::box2d"
+    FROM links WHERE geom && " + parseBBOX(req.query.bbox)
+  client.query query, (err, result) ->
+    res.send result.rows
+    
+app.get '/linkports', (req, res) =>
+  query = "SELECT id, ST_AsText(geom) AS wkt
+    FROM linkports WHERE geom && " + parseBBOX(req.query.bbox)
   client.query query, (err, result) ->
     res.send result.rows
   
