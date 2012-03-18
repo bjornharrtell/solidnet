@@ -14,5 +14,16 @@ define ->
         tbar: ['-', button]
         listeners:
           afterlayout:
-            fn: ->
-              map.map.render @body.dom
+            fn: (panel) ->
+              map.map.render panel.body.dom
+              panel.body.on 'contextmenu', @onContextmenu, @
+            scope: @
+              
+    onContextmenu: (e,t) ->
+      e.stopEvent()
+      
+      menu = Ext.create 'Ext.menu.Menu',
+        items: [
+          text: 'Connect'
+        ]
+      menu.showAt e.browserEvent.x, e.browserEvent.y

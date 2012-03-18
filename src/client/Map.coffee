@@ -17,6 +17,12 @@ define [
       links = @createLinksLayer()
       map.addLayer links
       
+      snap = new OpenLayers.Control.Snapping
+        layer: links
+        targets: [links, linkports]
+        greedy: false
+      snap.activate()
+      
       @draw = draw = new OpenLayers.Control.DrawFeature links, OpenLayers.Handler.Path,
         featureAdded: @onFeatureAdded
       
@@ -42,8 +48,8 @@ define [
       style.strokeWidth= 1
       style.strokeColor= '#000000'
       style.strokeOpacity= 1
-      style.pointRadius= 3
-      style.graphicName= 'square'
+      style.pointRadius= 2
+      #style.graphicName= 'square'
       layer = new OpenLayers.Layer.Vector '',
         protocol: new OpenLayers.Protocol.HTTP
           url: 'linkports'
@@ -52,7 +58,7 @@ define [
         projection: @map.getProjectionObject()
         styleMap: new OpenLayers.StyleMap 
           default: style
-      
+          
     onFeatureAdded: (feature) ->
       format = new OpenLayers.Format.WKT
       data =

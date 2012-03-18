@@ -20,14 +20,17 @@ app.get '/hello', (req, res) =>
   res.send 'hello world' 
 
 app.get '/links', (req, res) =>
-  query = "SELECT id, ST_AsText(geom) AS wkt
-    FROM links WHERE geom && " + parseBBOX(req.query.bbox)
+  query = "SELECT id, ST_AsText(geom) AS wkt FROM links WHERE geom && " + parseBBOX(req.query.bbox)
   client.query query, (err, result) ->
     res.send result.rows
     
 app.get '/linkports', (req, res) =>
-  query = "SELECT id, ST_AsText(geom) AS wkt
-    FROM linkports WHERE geom && " + parseBBOX(req.query.bbox)
+  query = "SELECT id, distance, ST_AsText(geom) AS wkt FROM linkports WHERE geom && " + parseBBOX(req.query.bbox)
+  client.query query, (err, result) ->
+    res.send result.rows
+    
+app.get '/nodes', (req, res) =>
+  query = "SELECT id, ST_AsText(geom) AS wkt FROM nodes WHERE geom && " + parseBBOX(req.query.bbox)
   client.query query, (err, result) ->
     res.send result.rows
   
