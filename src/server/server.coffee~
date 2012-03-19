@@ -34,7 +34,7 @@ app.get '/linkports', (req, res) =>
     res.send result.rows
     
 app.post '/linkports', (req, res) =>
-  client.query "SELECT createport($1, $2)", [req.body.id, req.body.wkt]
+  client.query "SELECT createport($1, $2)", [req.body.id,req.body.wkt]
   res.send 'ok'
     
 app.get '/nodes', (req, res) =>

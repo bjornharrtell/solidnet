@@ -43,7 +43,7 @@ Development requirements
  * Ubuntu or similar assumed
  * PostgreSQL 9.0+ (http://www.postgresql.org)
  * PostGIS 1.5+ (http://postgis.refractions.net)
- * OpenLayers 2.11+ (http://openlayers.org) in root
+ * OpenLayers 3.x (master branch from github) (http://openlayers.org) in root
  * Ext JS 4.0+ (http://www.sencha.com) in root
  * Node.js (http://nodejs.org)
  * NPM (http://npmjs.org/)

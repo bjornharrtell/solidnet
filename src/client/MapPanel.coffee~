@@ -53,7 +53,7 @@ define ->
                     url: 'linkports'
                     jsonData:
                       id: link.attributes.id
-                      wkt: format.extractGeometry(point)
+                      wkt: format.write(point)
           break
       
       menu = Ext.create 'Ext.menu.Menu',

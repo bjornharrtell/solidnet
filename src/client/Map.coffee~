@@ -10,6 +10,7 @@ define [
           new OpenLayers.Projection("EPSG:4326"),
           this.map.getProjectionObject()
         ), 12)
+      map.events.register 'click', @, @onClick
       
       linkports = @createLinkportsLayer()
       map.addLayer linkports
@@ -58,6 +59,9 @@ define [
         projection: @map.getProjectionObject()
         styleMap: new OpenLayers.StyleMap 
           default: style
+    
+    onClick: (e) ->
+      alert 'moo'
     
     onFeatureAdded: (feature) ->
       format = new OpenLayers.Format.WKT
