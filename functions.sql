@@ -17,6 +17,26 @@ BEGIN
 
   INSERT INTO linkports (link, distance, geom)
     VALUES (newid, 1, endPoint);
+  
+  -- autocreate nodes
+  -- TODO: do not create node if already a node at this location, reuse it instead
+  
+  INSERT INTO nodes (created, geom)
+    VALUES (now(), startPoint)
+    RETURNING id
+    INTO newid;
+    
+  INSERT INTO nodeslinkports (node, linkport)
+    SELECT newid, id FROM linkports WHERE startPoint && linkports.geom;
+  
+  INSERT INTO nodes (created, geom)
+    VALUES (now(), endPoint);
+    
+  INSERT INTO nodeslinkports (node, linkport)
+    SELECT newid, id FROM linkports WHERE endPoint && linkports.geom;
+  
+  INSERT INTO nodes (created, geom)
+    VALUES (now(), endPoint);
 
   RETURN true;
 END;

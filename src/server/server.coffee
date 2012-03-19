@@ -41,6 +41,10 @@ app.get '/nodes', (req, res) =>
   query = "SELECT id, ST_AsText(geom) AS wkt FROM nodes WHERE geom && " + parseBBOX(req.query.bbox)
   client.query query, (err, result) ->
     res.send result.rows
+    
+app.post '/nodes', (req, res) =>
+  client.query "SELECT createnode($1)", [req.body.wkt]
+  res.send 'ok'
 
 app.listen 3000
 

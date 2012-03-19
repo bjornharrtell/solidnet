@@ -2,8 +2,10 @@ SolidNet
 ========
 
 A reference implementation of stable link entity network for
-PostgreSQL/PostGIS. Also includes a basic server/client for
-editing the network.
+PostgreSQL/PostGIS. 
+
+Also included is a a basic server/client for editing the network
+written in coffeescript using OpenLayers, Ext JS and node.js.
 
 NOTE: Experimental work. Not even close to being finished or
 functional.

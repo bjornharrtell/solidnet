@@ -42,6 +42,8 @@ define ->
       
       bounds = new OpenLayers.Bounds lon - distance, lat - distance, lon + distance, lat + distance
 
+      map = @map
+
       for link in @map.links.features
         if link.geometry.intersects bounds.toGeometry()
           items.push
@@ -54,6 +56,12 @@ define ->
                     jsonData:
                       id: link.attributes.id
                       wkt: format.extractGeometry(point)
+                    success: ->
+                      obj =
+                        force: true
+                      #map.links.refresh(obj)
+                      #map.nodes.refresh(obj)
+                      map.linkports.refresh(obj)
           break
       
       menu = Ext.create 'Ext.menu.Menu',
