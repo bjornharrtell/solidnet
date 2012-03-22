@@ -51,6 +51,8 @@ define ->
             listeners:
               click:
                 fn: ->
+                  if not link.attributes.id? then return
+                
                   Ext.Ajax.request
                     url: 'linkports'
                     jsonData:

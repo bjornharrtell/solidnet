@@ -1,49 +1,68 @@
--- create Link with geometry
-CREATE OR REPLACE FUNCTION createlink(geom geometry)
+-- create Link from LineString geometry
+CREATE OR REPLACE FUNCTION createlink(linestring geometry)
   RETURNS boolean AS $$
 
 DECLARE
-  newid uuid;
-  startPoint geometry := ST_StartPoint(geom);
-  endPoint geometry := ST_EndPoint(geom);
+  newlinkid uuid;
+  nodeid uuid;
+  linkportid uuid;
+  startPoint geometry := ST_StartPoint(linestring);
+  endPoint geometry := ST_EndPoint(linestring);
 BEGIN
+  -- create new Link
   INSERT INTO links (geom)
-    VALUES (geom)
+    VALUES (linestring)
     RETURNING id
-    INTO newid;
-  
-  INSERT INTO linkports (link, distance, geom)
-    VALUES (newid, 0, startPoint);
+    INTO newlinkid;
 
+  -- get id of existing Node at start location
+  nodeid := (SELECT id FROM nodes where geom && startPoint);
+
+  -- if no existing Node, create one
+  IF nodeid IS NULL THEN
+    INSERT INTO nodes (created, geom)
+      VALUES (now(), startPoint)
+      RETURNING id
+      INTO nodeid;
+  END IF;
+
+  -- create start Linkport for new Link
   INSERT INTO linkports (link, distance, geom)
-    VALUES (newid, 1, endPoint);
-  
-  -- autocreate nodes
-  -- TODO: do not create node if already a node at this location, reuse it instead
-  
-  INSERT INTO nodes (created, geom)
-    VALUES (now(), startPoint)
+    VALUES (newlinkid, 0, startPoint)
     RETURNING id
-    INTO newid;
-    
+    INTO linkportid;
+
+  -- connect Node to start Linkport
   INSERT INTO nodeslinkports (node, linkport)
-    SELECT newid, id FROM linkports WHERE startPoint && linkports.geom;
-  
-  INSERT INTO nodes (created, geom)
-    VALUES (now(), endPoint);
+    VALUES (nodeid, linkportid);
+
+  -- get id of existing Node at start location
+  nodeid := (SELECT id FROM nodes where geom && endPoint);
+
+  -- if no existing Node, create one
+  IF nodeid IS NULL THEN
+    INSERT INTO nodes (created, geom)
+      VALUES (now(), endPoint)
+      RETURNING id
+      INTO nodeid;
+  END IF;
+
+  -- create end Linkport for new Link
+  INSERT INTO linkports (link, distance, geom)
+    VALUES (newlinkid, 1, endPoint)
+    RETURNING id
+    INTO linkportid;
     
+  -- connect Node to start Linkport
   INSERT INTO nodeslinkports (node, linkport)
-    SELECT newid, id FROM linkports WHERE endPoint && linkports.geom;
-  
-  INSERT INTO nodes (created, geom)
-    VALUES (now(), endPoint);
+    VALUES (nodeid, linkportid);
 
   RETURN true;
 END;
 
 $$ LANGUAGE plpgsql VOLATILE;
 
--- create Linkport from point on Link with linkid
+-- create Linkport from linkid and Point geometry
 CREATE OR REPLACE FUNCTION createport(linkid uuid, point geometry)
   RETURNS boolean AS $$
 

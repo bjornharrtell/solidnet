@@ -11,14 +11,17 @@ define [
           this.map.getProjectionObject()
         ), 12)
       
+      @linksOutline = linksOutline = @createLinksOutlineLayer()
+      map.addLayer linksOutline
+      
       @links = links = @createLinksLayer()
       map.addLayer links
       
-      @nodes = nodes = @createNodesLayer()
-      map.addLayer nodes
-      
       @linkports = linkports = @createLinkportsLayer()
       map.addLayer linkports
+      
+      @nodes = nodes = @createNodesLayer()
+      map.addLayer nodes
       
       snap = new OpenLayers.Control.Snapping
         layer: links
@@ -34,10 +37,24 @@ define [
       
     createLinksLayer: ->
       style = OpenLayers.Util.extend {}, OpenLayers.Feature.Vector.style['default']
-      style.strokeWidth = 1
+      style.strokeWidth = 1.5
+      style.strokeColor = '#00aa00'
+      style.strokeOpacity = 1
+      new OpenLayers.Layer.Vector '',
+        protocol: new OpenLayers.Protocol.HTTP
+          url: 'links'
+          format: new WKTJSON
+        strategies: [new OpenLayers.Strategy.BBOX]
+        projection: @map.getProjectionObject()
+        styleMap: new OpenLayers.StyleMap 
+          default: style
+    
+    createLinksOutlineLayer: ->
+      style = OpenLayers.Util.extend {}, OpenLayers.Feature.Vector.style['default']
+      style.strokeWidth = 2.5
       style.strokeColor = '#000000'
       style.strokeOpacity = 1
-      layer = new OpenLayers.Layer.Vector '',
+      new OpenLayers.Layer.Vector '',
         protocol: new OpenLayers.Protocol.HTTP
           url: 'links'
           format: new WKTJSON
@@ -48,11 +65,11 @@ define [
     
     createLinkportsLayer: ->
       style = OpenLayers.Util.extend {}, OpenLayers.Feature.Vector.style['default']
-      style.strokeWidth = 1
+      style.strokeWidth = 0.5
       style.strokeColor = '#000000'
       style.strokeOpacity = 1
-      style.pointRadius = 2
-      style.fillColor = '#0000ff'
+      style.pointRadius = 3.5
+      style.fillColor = '#ffff00'
       style.fillOpacity = 1
       #style.graphicName= 'square'
       layer = new OpenLayers.Layer.Vector '',
@@ -66,10 +83,12 @@ define [
     
     createNodesLayer: ->
       style = OpenLayers.Util.extend {}, OpenLayers.Feature.Vector.style['default']
-      style.strokeWidth = 1
+      style.strokeWidth = 0.5
       style.strokeColor = '#000000'
       style.strokeOpacity = 1
-      style.pointRadius = 4
+      style.pointRadius = 2
+      style.fillColor = '#0000ff'
+      style.fillOpacity = 1
       #style.graphicName= 'square'
       layer = new OpenLayers.Layer.Vector '',
         protocol: new OpenLayers.Protocol.HTTP
@@ -93,6 +112,7 @@ define [
           obj =
            force: true
           #@links.refresh(obj)
+          @linksOutline.refresh(obj)
           @nodes.refresh(obj)
           @linkports.refresh(obj)
           
