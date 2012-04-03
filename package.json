@@ -7,6 +7,7 @@
 , "dependencies": {
     "express": "latest"
   , "pg": "latest"
+  , "coffee-script": "latest"
   }
 , "repository": {
     "type" : "git"
