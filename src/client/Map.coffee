@@ -3,7 +3,8 @@ define [
 ], (WKTJSON) ->
   class Map
     constructor: ->
-      @map = map = new OpenLayers.Map null
+      @map = map = new OpenLayers.Map null,
+        controls: [new OpenLayers.Control.Navigation()]
       map.addLayer new OpenLayers.Layer.OSM
       map.setCenter(
         new OpenLayers.LonLat(-71.147, 42.472).transform(
@@ -32,7 +33,7 @@ define [
       @draw = draw = new OpenLayers.Control.DrawFeature links, OpenLayers.Handler.Path,
         featureAdded: (f) => @onFeatureAdded(f)
       
-      map.addControl new OpenLayers.Control.MousePosition
+      #map.addControl new OpenLayers.Control.MousePosition
       map.addControl draw
       
     createLinksLayer: ->
