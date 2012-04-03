@@ -1,8 +1,13 @@
+fs = require 'fs'
 express = require 'express'
 pg = require 'pg'
 
-client = new pg.Client 'tcp://postgres:postgres@localhost/solidnet'
+env = JSON.parse(fs.readFileSync('/home/dotcloud/environment.json', 'utf-8'))
+
+client = new pg.Client '#{env[DOTCLOUD_DATA_SQL_URL}/solidnet'
 client.connect()
+
+env['#{pre}URL']
 
 client.query "set search_path to solidnet,public;"
 
