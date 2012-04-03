@@ -51,5 +51,5 @@ app.post '/nodes', (req, res) =>
   client.query "SELECT createnode($1)", [req.body.wkt]
   res.send 'ok'
 
-app.listen 3000
+app.listen 8080
 
