@@ -1,2 +1,5 @@
+www
+  type: nodejs
+  approot: src/server
 data:
   type: postgis
