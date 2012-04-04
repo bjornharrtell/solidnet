@@ -11,7 +11,7 @@ log.debug 'Reading environment variables...'
 
 env = JSON.parse(fs.readFileSync('/home/dotcloud/environment.json', 'utf-8'))
 
-connstring = "#{env['DOTCLOUD_DATA_SQL_URL']}/solidnet"
+connstring = env['DOTCLOUD_DATA_SQL_URL'] + '/solidnet'
 
 log.debug "Connecting to PostgreSQL using connection string: #{connstring}"
 
