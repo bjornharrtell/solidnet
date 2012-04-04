@@ -3,3 +3,5 @@ www:
   approot: ./
 data:
   type: postgis
+systempackages:
+   - libpq-dev
