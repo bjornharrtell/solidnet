@@ -1,7 +1,8 @@
 www:
   type: nodejs
   approot: ./
+  systempackages:
+    - libpq-dev
 data:
   type: postgis
-systempackages:
-   - libpq-dev
+
