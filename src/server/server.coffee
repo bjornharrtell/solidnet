@@ -1,10 +1,20 @@
+log = require 'log'
+
+log.debug 'Starting server...'
+
 fs = require 'fs'
 express = require 'express'
 pg = require 'pg'
 
+log.debug 'Reading environment variables...'
+
 env = JSON.parse(fs.readFileSync('/home/dotcloud/environment.json', 'utf-8'))
 
-client = new pg.Client '#{env[DOTCLOUD_DATA_SQL_URL}/solidnet'
+connstring = '#{env[DOTCLOUD_DATA_SQL_URL}/solidnet'
+
+log.debug 'Connection string: #{connstring}'
+
+client = new pg.Client connstring
 client.connect()
 
 env['#{pre}URL']

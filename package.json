@@ -8,7 +8,8 @@
   "dependencies": {
     "express": "latest",
     "pg": "latest",
-    "coffee-script": "latest"
+    "coffee-script": "latest",
+    "log": "latest"
   },
   "repository": {
     "type" : "git", 
