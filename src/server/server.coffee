@@ -1,4 +1,5 @@
-log = require 'log'
+Log = require 'log'
+log  = new Log
 
 log.debug 'Starting server...'
 
