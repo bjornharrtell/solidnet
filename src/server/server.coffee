@@ -13,7 +13,7 @@ env = JSON.parse(fs.readFileSync('/home/dotcloud/environment.json', 'utf-8'))
 
 connstring = '#{env[DOTCLOUD_DATA_SQL_URL}/solidnet'
 
-log.info Connection string: '#{connstring}'
+log.info 'Connection string: #{connstring}'
 
 client = new pg.Client connstring
 client.connect()
