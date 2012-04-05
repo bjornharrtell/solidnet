@@ -1,24 +1,21 @@
 Log = require 'log'
 log  = new Log
 
-log.debug 'Starting server...'
-
+log.debug 'Server initializing...'
 fs = require 'fs'
 express = require 'express'
 pg = require 'pg'
 
 log.debug 'Reading environment variables...'
-
 env = JSON.parse(fs.readFileSync('/home/dotcloud/environment.json', 'utf-8'))
 
 connstring = env['DOTCLOUD_DATA_SQL_URL'] + '/solidnet'
 
 log.debug "Connecting to PostgreSQL using connection string: #{connstring}"
+pg.connect connstring, (err, client) ->
 
-pg.connect connstring, (error, client) ->
-
-  if error?
-    log.error "Connection failed: #{error}"
+  if err?
+    log.emergency "Connection failed: #{error}"
     return
 
   client.query "set search_path to solidnet,public;"
@@ -27,6 +24,7 @@ pg.connect connstring, (error, client) ->
     bbox = bbox.split ','
     "'BOX(#{bbox[0]} #{bbox[1]},#{bbox[2]} #{bbox[3]}'::box2d"
 
+  log.debug 'Creating express server...'
   app = express.createServer()
 
   app.configure ->
@@ -37,6 +35,7 @@ pg.connect connstring, (error, client) ->
     res.send 'hello world' 
 
   app.get '/links', (req, res) =>
+    log.debug 'Got query for links...'
     query = "SELECT id, ST_AsText(geom) AS wkt FROM links WHERE geom && " + parseBBOX(req.query.bbox)
     client.query query, (err, result) ->
       res.send result.rows
@@ -63,5 +62,6 @@ pg.connect connstring, (error, client) ->
     client.query "SELECT createnode($1)", [req.body.wkt]
     res.send 'ok'
 
+  log.debug 'Listening to port 8080...'
   app.listen 8080
 
