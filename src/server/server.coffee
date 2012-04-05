@@ -29,7 +29,7 @@ pg.connect connstring, (error, client) ->
 
   app = express.createServer()
 
-  app.configure =>
+  app.configure ->
     app.use express.static __dirname + '../../../'
     app.use express.bodyParser()
 
