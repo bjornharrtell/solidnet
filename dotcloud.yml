@@ -5,4 +5,5 @@ www:
     - libpq-dev
 data:
   type: postgis
-
+  systempackages:
+    - postgresql-contrib

@@ -15,7 +15,7 @@ log.debug "Connecting to PostgreSQL using connection string: #{connstring}"
 pg.connect connstring, (err, client) ->
 
   if err?
-    log.emergency "Connection failed: #{error}"
+    log.emergency "Connection failed: #{err}"
     return
 
   client.query "set search_path to solidnet,public;"
@@ -26,6 +26,8 @@ pg.connect connstring, (err, client) ->
 
   log.debug 'Creating express server...'
   app = express.createServer()
+  
+  sendResult = 
 
   app.configure ->
     app.use express.static __dirname + '../../../'
@@ -38,7 +40,7 @@ pg.connect connstring, (err, client) ->
     log.debug 'Got query for links...'
     query = "SELECT id, ST_AsText(geom) AS wkt FROM links WHERE geom && " + parseBBOX(req.query.bbox)
     client.query query, (err, result) ->
-      res.send result.rows
+      if result? then res.send result.rows
 
   app.post '/links', (req, res) =>
     client.query "SELECT createlink($1)", [req.body.wkt]
